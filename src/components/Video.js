@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import styled from 'styled-components';
 import ReactPlayer from 'react-player';
 import { Motion, spring } from 'react-motion';
-import { Triangle, MouseSquare } from '../components';
+import { Triangle, SquareCursor } from '../components';
 
 /* Center the video */
 const Container = styled.div`
@@ -33,6 +33,7 @@ const PlayerContainer = styled.div`
   position: relative;
   margin: auto;
   cursor: pointer;
+  display: inline-block;
 `;
 
 /* This component is independent in position -> Fixed
@@ -44,7 +45,7 @@ const PlayerContainer = styled.div`
    trigger hover mousemove event all the time. With this line, we say
    that there's no event triggered when the mouse move over this
    component. */
-const StyledMouseSquare = styled(MouseSquare)`
+const StyledSquareCursor = styled(SquareCursor)`
   position: fixed;
   transform: translate(-50%, -50%);
   pointer-events: none;
@@ -67,15 +68,6 @@ export default class Video extends Component {
       }
     };
   }
-
-  // componentDidMount() {
-  //   // Move video to the center of the screen
-  //   setTimeout(() => {
-  //     console.log(this.container.offsetTop);
-  //     console.log(this.playerWrapper.offsetTop);
-  //     console.log(msg)
-  //   });
-  // }
 
   zoomInOrOut = () => {
     const { zoom } = this.state;
@@ -103,7 +95,7 @@ export default class Video extends Component {
   };
 
   onMouseMove = (e) => {
-    // Set position of the cursor to the position of MouseSquare
+    // Set position of the cursor to the position of SquareCursor
     this.setState({
       mousePosition: {
         left: e.clientX,
@@ -140,50 +132,47 @@ export default class Video extends Component {
               position: 'absolute',
               top: playerTop
             }}>
-              <div>
-                <Motion
-                  style={motionStyle}
-                >
-                  {({ size, triangleX }) =>
-                    <PlayerContainer
-                      onMouseMove={this.onMouseMove}
+              <Motion
+                style={motionStyle}
+              >
+                {({ size, triangleX }) =>
+                  <PlayerContainer
+                    onMouseMove={this.onMouseMove}
+                    style={{
+                      width: `${size}%`,
+                      // Hide the cursor when the video is zoomed
+                      cursor: zoom ? 'none' : 'pointer'
+                    }}
+                    onClick={this.zoomInOrOut}>
+                    <StyledSquareCursor
                       style={{
-                        width: `${size}%`,
-                        height: `${size}%`,
-                        // Hide the cursor when the video is zoomed
-                        cursor: zoom ? 'none' : 'pointer'
+                        top,
+                        left
                       }}
-                      onClick={this.zoomInOrOut}>
-                      <StyledMouseSquare
+                      show={zoom}/>
+                    <TriangleBlock
+                      // Animate the triangle when the cursor hovers over
+                      // the video
+                      onMouseLeave={this.onMouseLeaveVideo}
+                      onMouseOver={this.onMouseOverVideo}>
+                      <Triangle
                         style={{
-                          top,
-                          left
+                          transform: `translate(${triangleX}%, 0)`
                         }}
-                        show={zoom}/>
-                      <TriangleBlock
-                        // Animate the triangle when the cursor hovers over
-                        // the video
-                        onMouseLeave={this.onMouseLeaveVideo}
-                        onMouseOver={this.onMouseOverVideo}>
-                        <Triangle
-                          style={{
-                            transform: `translate(${triangleX}%, 0)`
-                          }}
-                          hover={hover}/>
-                      </TriangleBlock>
-                      <ReactPlayer
-                        ref={(player) => this.player = player}
-                        // The video needs to cover the parent width
-                        // and height
-                        width={'100%'}
-                        height={'100%'}
-                        playing
-                        loop
-                        url={videoUrl}/>
-                    </PlayerContainer>
-                  }
-                </Motion>
-              </div>
+                        hover={hover}/>
+                    </TriangleBlock>
+                    <ReactPlayer
+                      ref={(player) => this.player = player}
+                      // The video needs to cover the parent width
+                      // and height
+                      width={'100%'}
+                      height={'100%'}
+                      playing
+                      loop
+                      url={videoUrl}/>
+                  </PlayerContainer>
+                }
+              </Motion>
             </Container>
           }
         </Motion>

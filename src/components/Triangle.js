@@ -37,24 +37,6 @@ export default class Triangle extends Component {
                 fill="none"
                 points="0 42.9371985 0 -0.125603023 46.9776016 42.9371985 0 86"></polygon>
           </svg>
-          // <svg
-          //   {...others}
-          //   width="159px"
-          //   height="158px"
-          //   viewBox="-9 -14 159 158">
-          //   <polygon
-          //     stroke="#000000"
-          //     strokeWidth="1"
-          //     fill="none"
-          //     points="130 65 0 130 0 0"></polygon>
-          //   <polygon
-          //     strokeDashoffset={offset}
-          //     strokeDasharray={500}
-          //     stroke="#000"
-          //     strokeWidth="17"
-          //     fill="none"
-          //     points="0 64 0 0 130 65 0 130"></polygon>
-          // </svg>
         }
       </Motion>
     );

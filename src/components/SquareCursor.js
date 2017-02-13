@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Motion, spring } from 'react-motion';
 
-export default class MouseSquare extends Component {
+export default class SquareCursor extends Component {
   static propTypes = {
     show: PropTypes.bool
   };
