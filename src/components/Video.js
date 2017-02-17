@@ -144,6 +144,7 @@ export default class Video extends Component {
                     onClick={this.toggleZoom}
                     style={{
                       width: `${videoSize}%`,
+                      zIndex: zoom ? 99 : 'initial',
                       cursor: zoom ? 'none' : 'pointer'
                       // Hide the cursor when it's zoomed.
                     }}>
